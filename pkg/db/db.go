@@ -1,4 +1,4 @@
-package databasehandler
+package db
 
 import (
 	"log"
