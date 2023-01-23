@@ -1,4 +1,4 @@
-module Something
+module github.com/NotVasil/Password-Manager
 
 go 1.19
 
