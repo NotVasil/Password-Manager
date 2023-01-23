@@ -6,5 +6,7 @@ Build:
 
 Usage:
   ./pwdm -new <website> <password>
+  
   ./pwdm -show <password>
+  
   ./pwdm -remove <password-id>
