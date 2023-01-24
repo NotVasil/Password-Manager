@@ -8,20 +8,23 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func GetDataBase() *sql.DB {
+func GetDataBase() (*sql.DB, error) {
 	db, err := sql.Open("sqlite3", "passwords.db")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return db
+	return db, err
 }
 
-func CreateTable() {
-	statement, err := GetDataBase().Prepare(`CREATE TABLE IF NOT EXISTS passwords ("pid" INTEGER PRIMARY KEY AUTOINCREMENT, "password" TEXT, "website" TEXT);`)
+func CreateTable() error {
+	db, err := GetDataBase()
+	statement, err := db.Prepare(`CREATE TABLE IF NOT EXISTS passwords ("pid" INTEGER PRIMARY KEY AUTOINCREMENT, "password" TEXT, "website" TEXT);`)
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	statement.Exec()
+	return err
 }

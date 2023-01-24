@@ -6,12 +6,13 @@ import (
 	"fmt"
 	"log"
 
-	db "github.com/vuk-v/Password-Manager/pkg/db"
+	dbh "github.com/vuk-v/Password-Manager/pkg/db"
 	pwd "github.com/vuk-v/Password-Manager/pkg/password"
 )
 
 func main() {
-	db.CreateTable()
+	db, _ := dbh.GetDataBase()
+	dbh.CreateTable()
 
 	h := sha256.New()
 	var key []byte
@@ -28,13 +29,13 @@ func main() {
 		key = h.Sum(nil)
 
 		websiteexists := fmt.Sprintf("SELECT * FROM passwords WHERE website='%v';", pwd.Encrypt(*new, string(key)))
-		rows, err := db.GetDataBase().Query(websiteexists)
+		rows, err := db.Query(websiteexists)
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		if !rows.Next() {
-			statement, err := db.GetDataBase().Prepare("INSERT INTO passwords (password, website) values(?, ?)")
+			statement, err := db.Prepare("INSERT INTO passwords (password, website) values(?, ?)")
 			if err != nil {
 				fmt.Println("There was an error creating your password, please rethink your input.")
 				return
@@ -57,7 +58,7 @@ func main() {
 			h.Write([]byte(tail[0]))
 			key = h.Sum(nil)
 
-			rows, err := db.GetDataBase().Query("SELECT * FROM passwords")
+			rows, err := db.Query("SELECT * FROM passwords")
 			if err != nil {
 				fmt.Println("There was an error finding passwords, please rethink your input.")
 				return
@@ -87,7 +88,7 @@ func main() {
 
 	if *remove != 0 {
 		statementtxt := fmt.Sprintf("DELETE FROM passwords WHERE pid = (?)")
-		statement, err := db.GetDataBase().Prepare(statementtxt)
+		statement, err := db.Prepare(statementtxt)
 
 		if err != nil {
 			fmt.Println("There was an error removing your password, please rethink your input.")
@@ -100,5 +101,5 @@ func main() {
 		return
 	}
 
-	db.GetDataBase().Close()
+	db.Close()
 }
