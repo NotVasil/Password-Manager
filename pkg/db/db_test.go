@@ -1,6 +1,7 @@
 package db
 
 import (
+	"os"
 	"testing"
 )
 
@@ -9,6 +10,8 @@ func TestGetDataBase(t *testing.T) {
 	if err != nil {
 		t.Error("Failed to get the database: ", err)
 	}
+
+	os.Remove("../../passwords.db")
 }
 
 func TestCreateTable(t *testing.T) {
@@ -16,4 +19,6 @@ func TestCreateTable(t *testing.T) {
 	if err != nil {
 		t.Error("Failed to create table: ", err)
 	}
+
+	os.Remove("passwords.db")
 }
