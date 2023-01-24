@@ -1,4 +1,4 @@
-module github.com/NotVasil/Password-Manager
+module github.com/vuk-v/Password-Manager
 
 go 1.19
 

@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"log"
 
-	db "github.com/NotVasil/Password-Manager/pkg/db"
-	pwd "github.com/NotVasil/Password-Manager/pkg/password"
+	db "github.com/vuk-v/Password-Manager/pkg/db"
+	pwd "github.com/vuk-v/Password-Manager/pkg/password"
 )
 
 func main() {
